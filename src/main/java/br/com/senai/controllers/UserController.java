@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static br.com.senai.repositories.UsersRepository.*;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -24,24 +26,24 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Users createUsers(@RequestBody Users users){
         Users newUsers = new Users();
-        newUsers.setName(users.getName());
-        newUsers.setPrice(users.getPrice());
+        newUsers.setUsername(users.getUsername());
+        newUsers.setPassword(users.getPassword());
         return usersRepository.save(newUsers);
     }
     @PutMapping(value="/updateUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Users updateUsers(@RequestBody Users users){
-        Users getUsers = UsersRepository.findById(users.getId()).orElseThrow();
+        Users getUsers = usersRepository.findById(users.getId()).orElseThrow();
         Users updateUsers = new Users();
 
         updateUsers.setId(users.getId());
-        updateUsers.setName(users.getName());
-        updateUsers.setPrice(users.getPrice());
+        updateUsers.setUsername(users.getUsername());
+        updateUsers.setPassword(users.getPassword());
 
         return  usersRepository.save(updateUsers);
     }
-    @DeleteMapping(value="/deleteUser/{id}",
+    @DeleteMapping(value="/deleteUsers/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public  Users deleteUsers(@PathVariable Long id){
         Users getUsers = usersRepository.findById(id).orElseThrow();
