@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-<<<<<<< HEAD
-import static br.com.senai.repositories.UsersRepository.*;
-
-=======
->>>>>>> github/master
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -24,51 +19,44 @@ public class UserController {
     public List<Users> getAllUsers(){
         return usersRepository.findAll();
     }
+
     @PostMapping(value="/createUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Users createUsers(@RequestBody Users users){
+        //Cria um novo objeto Users
         Users newUsers = new Users();
-<<<<<<< HEAD
+        //Seta as propriedades do Coffee
         newUsers.setUsername(users.getUsername());
+        newUsers.setEmail(users.getEmail());
         newUsers.setPassword(users.getPassword());
-=======
-        newUsers.setName(users.getName());
-        newUsers.setPrice(users.getPrice());
->>>>>>> github/master
+        //Chama o método save para salvar o objeto no banco de dados
         return usersRepository.save(newUsers);
     }
+
     @PutMapping(value="/updateUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Users updateUsers(@RequestBody Users users){
-<<<<<<< HEAD
-        Users getUsers = usersRepository.findById(users.getId()).orElseThrow();
+    public Users updateCoffee(@RequestBody Users users){
+        Users getUser = usersRepository
+                .findById(users.getId()).orElseThrow();
         Users updateUsers = new Users();
 
         updateUsers.setId(users.getId());
         updateUsers.setUsername(users.getUsername());
         updateUsers.setPassword(users.getPassword());
 
-        return  usersRepository.save(updateUsers);
+        return usersRepository.save(updateUsers);
     }
+    //Método deletar coffee
     @DeleteMapping(value="/deleteUsers/{id}",
-=======
-        Users getUsers = UsersRepository.findById(users.getId()).orElseThrow();
-        Users updateUsers = new Users();
-
-        updateUsers.setId(users.getId());
-        updateUsers.setName(users.getName());
-        updateUsers.setPrice(users.getPrice());
-
-        return  usersRepository.save(updateUsers);
-    }
-    @DeleteMapping(value="/deleteUser/{id}",
->>>>>>> github/master
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public  Users deleteUsers(@PathVariable Long id){
+    //@PathVariable pega um valor passado junto a barra de endereço
+    public Users deleteUsers(@PathVariable Long id){
+        //Verificamos se existe o café no banco de dados procurando o id
         Users getUsers = usersRepository.findById(id).orElseThrow();
+        //chamamos o método .delete e passamos o café a ser deletado
         usersRepository.delete(getUsers);
-        return  getUsers;
+        return getUsers;
     }
 }
